@@ -60,6 +60,7 @@ foreach(Dependency IN ITEMS ${CONTROL_FILTERS_INCLUDE_DEPENDS})
 endforeach()
 find_package(Eigen3 REQUIRED NO_MODULE)
 
+# Gravity Compensation
 generate_parameter_library(
   gravity_compensation_filter_parameters
   src/control_filters/gravity_compensation_filter_parameters.yaml
@@ -76,6 +77,7 @@ target_include_directories(gravity_compensation PUBLIC
 target_link_libraries(gravity_compensation PUBLIC gravity_compensation_filter_parameters)
 ament_target_dependencies(gravity_compensation PUBLIC ${CONTROL_FILTERS_INCLUDE_DEPENDS})
 
+# Low-pass filter
 generate_parameter_library(
   low_pass_filter_parameters
   src/control_filters/low_pass_filter_parameters.yaml
@@ -95,6 +97,21 @@ target_link_libraries(low_pass_filter PUBLIC
 )
 ament_target_dependencies(low_pass_filter PUBLIC ${CONTROL_FILTERS_INCLUDE_DEPENDS})
 
+# Threshold filter
+generate_parameter_library(
+  threshold_filter_parameters
+  src/control_filters/threshold_filter_parameters.yaml
+)
+add_library(threshold_filter SHARED
+  src/control_filters/threshold_filter.cpp
+)
+target_compile_features(threshold_filter PUBLIC cxx_std_17)
+target_include_directories(threshold_filter PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/control_toolbox>
+)
+target_link_libraries(threshold_filter PUBLIC threshold_filter_parameters)
+ament_target_dependencies(threshold_filter PUBLIC ${CONTROL_FILTERS_INCLUDE_DEPENDS})
 
 # Install pluginlib xml
 pluginlib_export_plugin_description_file(filters control_filters.xml)
@@ -146,7 +163,15 @@ install(
   DIRECTORY include/
   DESTINATION include/control_toolbox
 )
-install(TARGETS control_toolbox low_pass_filter low_pass_filter_parameters gravity_compensation gravity_compensation_filter_parameters
+install(
+  TARGETS
+    control_toolbox
+    low_pass_filter
+    low_pass_filter_parameters
+    gravity_compensation
+    gravity_compensation_filter_parameters
+    threshold_filter
+    threshold_filter_parameters
   EXPORT export_control_toolbox
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib

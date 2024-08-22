@@ -1,4 +1,5 @@
 <class_libraries>
+  <!-- Gravity compensation filter -->
   <library path="gravity_compensation">
     <class name="control_filters/GravityCompensationWrench"
            type="control_filters::GravityCompensation&lt;geometry_msgs::msg::WrenchStamped&gt;"
@@ -10,6 +11,8 @@
       </description>
     </class>
   </library>
+
+  <!-- Low pass filter -->
   <library path="low_pass_filter">
     <class name="control_filters/LowPassFilterDouble"
            type="control_filters::LowPassFilter&lt;double&gt;"
@@ -23,6 +26,17 @@
            base_class_type="filters::FilterBase&lt;geometry_msgs::msg::WrenchStamped&gt;">
       <description>
           This is a low pass filter working with geometry_msgs::WrenchStamped.
+      </description>
+    </class>
+  </library>
+
+  <!-- Threshold filter -->
+  <library path="threshold_filter">
+    <class name="control_filters/ThresholdFilterWrench"
+           type="control_filters::ThresholdFilter&lt;geometry_msgs::msg::WrenchStamped&gt;"
+           base_class_type="filters::FilterBase&lt;geometry_msgs::msg::WrenchStamped&gt;">
+      <description>
+        This is a threshold filter working with geometry_msgs::WrenchStamped.
       </description>
     </class>
   </library>

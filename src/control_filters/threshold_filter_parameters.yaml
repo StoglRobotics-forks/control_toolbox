@@ -1,0 +1,16 @@
+threshold_filter:
+  wrench:
+    force: {
+      type: double_array,
+      description: "Threshold the force",
+      validation: {
+        fixed_size<>: 3
+      },
+    }
+    torque: {
+        type: double_array,
+        description: "Threshold the torque",
+        validation: {
+          fixed_size<>: 3
+        },
+      }
