@@ -113,6 +113,22 @@ target_include_directories(threshold_filter PUBLIC
 target_link_libraries(threshold_filter PUBLIC threshold_filter_parameters)
 ament_target_dependencies(threshold_filter PUBLIC ${CONTROL_FILTERS_INCLUDE_DEPENDS})
 
+# Transform filter
+generate_parameter_library(
+  transform_filter_parameters
+  src/control_filters/transform_filter_parameters.yaml
+)
+add_library(transform_filter SHARED
+  src/control_filters/transform_filter.cpp
+)
+target_compile_features(transform_filter PUBLIC cxx_std_17)
+target_include_directories(transform_filter PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/control_toolbox>
+)
+target_link_libraries(transform_filter PUBLIC transform_filter_parameters)
+ament_target_dependencies(transform_filter PUBLIC ${CONTROL_FILTERS_INCLUDE_DEPENDS})
+
 # Install pluginlib xml
 pluginlib_export_plugin_description_file(filters control_filters.xml)
 
@@ -172,6 +188,8 @@ install(
     gravity_compensation_filter_parameters
     threshold_filter
     threshold_filter_parameters
+    transform_filter
+    transform_filter_parameters
   EXPORT export_control_toolbox
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib

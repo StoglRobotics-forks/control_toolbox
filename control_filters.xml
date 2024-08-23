@@ -40,4 +40,15 @@
       </description>
     </class>
   </library>
+
+  <!-- Transform filter -->
+  <library path="transform_filter">
+    <class name="control_filters/TransformFilterWrench"
+           type="control_filters::TransformFilter&lt;geometry_msgs::msg::WrenchStamped&gt;"
+           base_class_type="filters::FilterBase&lt;geometry_msgs::msg::WrenchStamped&gt;">
+      <description>
+        This is a transform filter working with geometry_msgs::WrenchStamped.
+      </description>
+    </class>
+  </library>
 </class_libraries>

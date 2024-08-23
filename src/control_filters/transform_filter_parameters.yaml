@@ -1,0 +1,17 @@
+transform_filter:
+  sensor_frame_id: {
+    type: string,
+    description: "Sensor frame",
+    read_only: true,
+    validation: {
+      not_empty<>: []
+    },
+  }
+  target_frame_id: {
+    type: string,
+    description: "Target frame to transform the data to",
+    read_only: true,
+    validation: {
+      not_empty<>: []
+    },
+  }
