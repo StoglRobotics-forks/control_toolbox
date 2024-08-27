@@ -46,12 +46,10 @@ bool ThresholdFilter<geometry_msgs::msg::WrenchStamped>::update(
   {
     if (fabs(value) > threshold)
     {
-      double sign = (value > 0) ? 1.0 : -1.0;
-      return value - sign * threshold;
+      return value - std::copysign(threshold, value);
     }
     return 0.0;
   };
-
   // apply thresholds
   data_out = data_in;
   data_out.wrench.force.x =
