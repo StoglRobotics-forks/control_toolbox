@@ -54,8 +54,21 @@ bool TransformFilter<geometry_msgs::msg::WrenchStamped>::update(
     return false;  // if cannot transform, result of subsequent computations is invalid
   }
 
-  // Transform data_in to target_frame_id
-  tf2::doTransform(data_in, data_out, transform_);
+  if (
+    data_in.wrench.torque.x == 0.0 && data_in.wrench.torque.y == 0.0 &&
+    data_in.wrench.torque.z == 0.0)
+  {
+    // HACK: only for case when all torques are zero, transform only force
+    data_out.header.stamp = transform_.header.stamp;
+    data_out.header.frame_id = transform_.header.frame_id;
+    data_out.wrench.torque = data_in.wrench.torque;
+    tf2::doTransform(data_in.wrench.force, data_out.wrench.force, transform_);
+    return true;
+  }
+  else
+  {
+    tf2::doTransform(data_in, data_out, transform_);
+  }
 
   return true;
 }
