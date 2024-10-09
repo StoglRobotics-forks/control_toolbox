@@ -51,4 +51,15 @@
       </description>
     </class>
   </library>
+
+  <!-- VirtualForces filter -->
+  <library path="virtual_forces_filter">
+    <class name="control_filters/VirtualForcesFilter"
+           type="control_filters::VirtualForcesFilter&lt;geometry_msgs::msg::WrenchStamped&gt;"
+           base_class_type="filters::FilterBase&lt;geometry_msgs::msg::WrenchStamped&gt;">
+      <description>
+        This is a virtual forces filter working with geometry_msgs::WrenchStamped.
+      </description>
+    </class>
+  </library>
 </class_libraries>

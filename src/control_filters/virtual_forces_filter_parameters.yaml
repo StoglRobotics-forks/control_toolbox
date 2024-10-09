@@ -1,0 +1,16 @@
+virtual_forces_filter:
+  virtual_forces:
+    force: {
+      type: double_array,
+      description: "Virtual forces",
+      validation: {
+        fixed_size<>: 3
+      },
+    }
+    torque: {
+        type: double_array,
+        description: "Virtual torques",
+        validation: {
+          fixed_size<>: 3
+        },
+      }

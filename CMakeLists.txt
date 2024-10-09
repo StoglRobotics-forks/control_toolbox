@@ -129,6 +129,22 @@ target_include_directories(transform_filter PUBLIC
 target_link_libraries(transform_filter PUBLIC transform_filter_parameters)
 ament_target_dependencies(transform_filter PUBLIC ${CONTROL_FILTERS_INCLUDE_DEPENDS})
 
+# Virtual forces filter
+generate_parameter_library(
+  virtual_forces_filter_parameters
+  src/control_filters/virtual_forces_filter_parameters.yaml
+)
+add_library(virtual_forces_filter SHARED
+  src/control_filters/virtual_forces_filter.cpp
+)
+target_compile_features(virtual_forces_filter PUBLIC cxx_std_17)
+target_include_directories(virtual_forces_filter PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/control_toolbox>
+)
+target_link_libraries(virtual_forces_filter PUBLIC virtual_forces_filter_parameters)
+ament_target_dependencies(virtual_forces_filter PUBLIC ${CONTROL_FILTERS_INCLUDE_DEPENDS})
+
 # Install pluginlib xml
 pluginlib_export_plugin_description_file(filters control_filters.xml)
 
@@ -182,14 +198,21 @@ install(
 install(
   TARGETS
     control_toolbox
+    # Low-pass filter
     low_pass_filter
     low_pass_filter_parameters
+    # Gravity Compensation
     gravity_compensation
     gravity_compensation_filter_parameters
+    # Threshold filter
     threshold_filter
     threshold_filter_parameters
+    # Transform filter
     transform_filter
     transform_filter_parameters
+    # Virtual forces filter
+    virtual_forces_filter
+    virtual_forces_filter_parameters
   EXPORT export_control_toolbox
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
